@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/db";
+import {connectToDatabase} from "@/lib/db";
 import User from "@/model/User";
 
 export default async function handler(
@@ -10,9 +10,9 @@ export default async function handler(
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  await dbConnect();
+  await connectToDatabase();
 
-  const { email, password, name, role } = req.body;
+  const { email, password, name } = req.body;
 
   if (!email || !password || !name) {
     return res.status(422).json({ message: "Invalid input" });
@@ -24,7 +24,7 @@ export default async function handler(
     return res.status(422).json({ message: "User already exists" });
   }
 
-  const user = new User({ email, password, name, role });
+  const user = new User({ email, password, name });
 
   await user.save();
 

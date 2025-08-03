@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/db";
+import {connectToDatabase} from "@/lib/db";
 import User from "@/model/User";
 import bcrypt from "bcryptjs";
 
@@ -11,7 +11,7 @@ export default async function handler(
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  await dbConnect();
+  await connectToDatabase();
 
   const { email, password } = req.body;
 

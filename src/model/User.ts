@@ -5,7 +5,8 @@ export interface IUser {
   email: string;
   password: string;
   name: string;
-  role: "CANDIDATE" | "ADMIN";
+  role: string;
+  isAdmin: boolean;
   roundsId?: mongoose.Types.ObjectId;
   _id?: mongoose.Types.ObjectId;
   createdAt?: Date;
@@ -17,11 +18,8 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
-    role: {
-      type: String,
-      enum: ["CANDIDATE", "ADMIN"],
-      default: "CANDIDATE",
-    },
+    role: { type: String, default: "CANDIDATE" },
+    isAdmin: { type: Boolean, default: false },
     roundsId: [{ type: Schema.Types.ObjectId, ref: "InterviewRound" }],
   },
 	{ timestamps: true }
